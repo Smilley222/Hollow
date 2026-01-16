@@ -1,0 +1,14 @@
+{
+  "name": "concrete-hunger",
+  "version": "0.1.0",
+  "description": "LAN co-op survival wave defense demo.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0"
+  }
+}

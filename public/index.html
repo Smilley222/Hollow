@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Concrete Hunger</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="screen" id="lobby">
+      <div class="panel">
+        <h1>Concrete Hunger</h1>
+        <p class="tagline">LAN-only co-op survival • Two players required</p>
+        <label class="field">
+          Display name
+          <input id="playerName" type="text" placeholder="Player name" />
+        </label>
+        <label class="field">
+          Server address
+          <input id="serverAddress" type="text" placeholder="ws://192.168.0.10:8080" />
+        </label>
+        <div class="actions">
+          <button id="hostButton">Host (this device)</button>
+          <button id="joinButton">Join server</button>
+        </div>
+        <p class="status" id="statusText">Waiting for connection…</p>
+        <div class="notes">
+          <p>Host runs the authoritative server. Join from a second device on the same LAN.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen hidden" id="game">
+      <canvas id="gameCanvas" width="1200" height="800"></canvas>
+      <div class="hud">
+        <div class="hud-left">
+          <div><strong>Wave:</strong> <span id="waveText">0</span></div>
+          <div><strong>Next wave:</strong> <span id="nextWaveText">--</span>s</div>
+          <div><strong>Shared scrap:</strong> <span id="scrapText">0</span></div>
+        </div>
+        <div class="hud-right">
+          <div><strong>Hunger:</strong> <span id="hungerText">0</span></div>
+          <div><strong>Base HP:</strong> <span id="baseHpText">0</span></div>
+          <div><strong>Status:</strong> <span id="statusHud">Waiting</span></div>
+        </div>
+      </div>
+      <div class="touch-controls">
+        <div class="movement">
+          <button data-dir="up">▲</button>
+          <div>
+            <button data-dir="left">◀</button>
+            <button data-dir="down">▼</button>
+            <button data-dir="right">▶</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="attackButton">Attack</button>
+          <button id="repairButton">Repair</button>
+          <button id="expandButton">Expand</button>
+        </div>
+      </div>
+      <div class="overlay hidden" id="gameOver">
+        <div class="panel">
+          <h2>Base fallen</h2>
+          <p>Restarting the run…</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="client.js"></script>
+  </body>
+</html>
