@@ -1,93 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HOLLOW</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HOLLOW | Co-op Survival</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game-root">
-    <canvas id="game" width="800" height="600" aria-label="Hollow game canvas"></canvas>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="hud">
+            <div class="top-center">
+                <div id="wave-display">WAVE 1</div>
+                <div class="bar-container base-bar">
+                    <div id="base-hp-fill" class="bar-fill"></div>
+                    <span class="bar-label">BASE CORE</span>
+                </div>
+                <div id="currency-hud">BIOMASS: <span id="biomass-display">0</span></div>
+            </div>
 
-    <div id="hud">
-      <div id="top-center">
-        <div id="wave" class="wave">Wave <span id="wave-number">1</span></div>
-        <div id="base-bar" class="bar">
-          <div class="bar-fill" id="base-fill"></div>
+            <div class="bottom-left">
+                <div class="player-stats">
+                    <span id="p1-status">P1</span>
+                    <div class="bar-container hunger-bar">
+                        <div id="p1-hunger-fill" class="bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-right">
+                <div class="player-stats">
+                    <span id="p2-status">P2</span>
+                    <div class="bar-container hunger-bar">
+                        <div id="p2-hunger-fill" class="bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bleedout-timer" class="hidden">BLEEDOUT: 8.0s</div>
         </div>
-      </div>
 
-      <div id="bottom-left" class="player-panel">
-        <div class="player-title">P1 <span id="p1-status"></span></div>
-        <div class="bar hunger">
-          <div class="bar-fill" id="p1-hunger"></div>
+        <div id="shop-ui" class="hidden">
+            <div class="shop-header">
+                <h2>BASE FABRICATOR</h2>
+                <div class="currency-display">BIOMASS: <span id="shop-currency">0</span></div>
+            </div>
+            <div class="shop-grid">
+                <div class="shop-col">
+                    <h3>WEAPONS</h3>
+                    <button onclick="buyUpgrade('dmg')">
+                        <span class="label">Damage Mk.II (+20%)</span>
+                        <span class="cost">100 B</span>
+                    </button>
+                    <button onclick="buyUpgrade('rate')">
+                        <span class="label">Rapid Fire (-10% CD)</span>
+                        <span class="cost">150 B</span>
+                    </button>
+                </div>
+                <div class="shop-col">
+                    <h3>ARMOR</h3>
+                    <button onclick="buyUpgrade('hp')">
+                        <span class="label">Max HP (+25)</span>
+                        <span class="cost">80 B</span>
+                    </button>
+                    <button onclick="buyUpgrade('speed')">
+                        <span class="label">Servos (+10% Spd)</span>
+                        <span class="cost">120 B</span>
+                    </button>
+                </div>
+                <div class="shop-col">
+                    <h3>BASE</h3>
+                    <button onclick="buyUpgrade('healBase')">
+                        <span class="label">Repair Core (+100)</span>
+                        <span class="cost">50 B</span>
+                    </button>
+                    <button onclick="buyUpgrade('wall')">
+                        <span class="label">Reinforce (+100 Max)</span>
+                        <span class="cost">200 B</span>
+                    </button>
+                </div>
+            </div>
+            <div class="shop-footer">Press 'B' or ESC to Close</div>
         </div>
-      </div>
 
-      <div id="bottom-right" class="player-panel">
-        <div class="player-title">P2 <span id="p2-status"></span></div>
-        <div class="bar hunger">
-          <div class="bar-fill" id="p2-hunger"></div>
+        <div id="mobile-ui" class="hidden">
+            <div id="joystick-zone">
+                <div id="joystick-base"><div id="joystick-knob"></div></div>
+            </div>
+            <button id="swap-btn">SWAP</button>
+            <button id="attack-btn">ATK</button>
+            <button id="shop-btn-mobile" onclick="toggleShop()">SHOP</button>
         </div>
-      </div>
 
-      <div id="bleedout" class="hidden">
-        BLEEDOUT <span id="bleedout-timer">8.0</span>s
-      </div>
-
-      <div id="debug" class="hidden"></div>
-    </div>
-
-    <div id="game-over" class="hidden">
-      <div class="game-over-card">
-        <h1>GAME OVER</h1>
-        <p id="game-over-reason"></p>
-        <div class="stats">
-          <div>Waves Survived: <span id="stat-waves"></span></div>
-          <div>Enemies Killed: <span id="stat-kills"></span></div>
-          <div>Time Survived: <span id="stat-time"></span>s</div>
+        <div id="debug-overlay" class="hidden"></div>
+        
+        <div id="game-over" class="hidden">
+            <div class="overlay-content">
+                <h1>GAME OVER</h1>
+                <p id="death-reason"></p>
+                <div id="final-stats"></div>
+                <button onclick="location.reload()">RESTART</button>
+            </div>
         </div>
-        <button id="restart">Restart</button>
-      </div>
     </div>
-
-    <div id="lan-panel">
-      <h3>LAN MULTIPLAYER (Coming Soon)</h3>
-      <pre id="schema">Input Message Schema
-{
-  seq: number,
-  t: number,
-  pid: 1 | 2,
-  up: boolean,
-  down: boolean,
-  left: boolean,
-  right: boolean,
-  attack: boolean
-}
-
-State Message Schema
-{
-  tick: number,
-  players: Array<{ pid, x, y, vx, vy, hp, hunger, downed, reviving, invuln }>,
-  enemies: Array<{ id, x, y, vx, vy, hp, state, target, attackWindup, attackCooldown }>,
-  pickups: Array<{ id, x, y, type }>,
-  base: { x, y, hp, radius },
-  wave: { current, nextSpawnTime, spawnCount },
-  bleedOut: { active, timeLeft }
-}
-</pre>
-    </div>
-
-    <div id="mobile-ui" class="hidden">
-      <div id="joystick">
-        <div id="joystick-knob"></div>
-      </div>
-      <button id="attack">ATTACK</button>
-      <button id="swap">SWAP</button>
-    </div>
-  </div>
-
-  <script src="game.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
