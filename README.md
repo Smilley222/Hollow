@@ -1,98 +1,70 @@
 # HOLLOW
 
-**A mandatory co-op survival wave defense game**
+**Co-op survival wave defense. Two players. One base. Escalating pressure.**
 
-[![Status](https://img.shields.io/badge/status-MVP%20Build%20Phase-yellow)]()
-[![Platform](https://img.shields.io/badge/platform-Browser-blue)]()
-[![Players](https://img.shields.io/badge/players-2%20(Co--op)-green)]()
+## Quick Start
 
----
+1. Open `index.html` in any modern browser
+1. Desktop: P1 uses WASD + F, P2 uses Arrow Keys + RShift
+1. Mobile: Use on-screen controls, tap swap to switch players
+1. Survive waves, gather food, revive teammates, protect base
 
-## Overview
+## Controls
 
-**HOLLOW** is a browser-based co-op survival wave defense game where two players must work together to defend their shared base against endless waves of enemies. Built with a local-first, LAN-ready architecture, HOLLOW emphasizes coordination, shared stakes, and escalating pressure.
+**Desktop**
 
-### Core Pillars
+- P1: WASD (move) + F (attack)
+- P2: Arrow Keys (move) + Right Shift (attack)
 
-🤝 **Two Players Always**
-No solo mode. Co-op is mandatory. Teamwork isn't optional—it's survival.
+**Mobile**
 
-⚔️ **Shared Stakes**
-One base. Shared survival. Coordinated rescue. Your fates are intertwined.
+- On-screen joystick + attack button
+- Swap button toggles P1/P2 control
+- Non-controlled player auto-follows
 
-📈 **Escalating Pressure**
-Waves ramp forever. Hunger drains constantly. How long can you last?
+**Debug**
 
-💾 **Local-First Execution**
-Single authoritative state with message-based input for predictable, deterministic gameplay.
+- Press ` to toggle debug overlay
 
-🌐 **LAN-Ready Architecture**
-Input/state schemas designed for network transport from the ground up.
+## How to Play
 
----
+**Objective**: Survive as long as possible.
 
-## Features
+**Mechanics**:
 
-- **Mandatory 2-Player Co-op** — Designed for exactly two players working together
-- **Wave-Based Survival** — Defend against increasingly difficult enemy waves
-- **Shared Resource Management** — Coordinate food, materials, and defenses
-- **Browser-Based** — Play on desktop or mobile browsers
-- **Local & LAN Support** — Built with network play in mind from day one
+- Hunger drains 2.5%/s
+- Food pickups restore 35% hunger
+- Enemies spawn in waves (increasing count + speed)
+- Attack to shove enemies (knockback + damage)
+- Revive downed teammates (hold attack 2.75s)
+- Both down = 8s bleedout timer
 
----
+**Lose When**:
 
-## Technical Architecture
+- Base health reaches 0, OR
+- Both players down for 8 seconds
 
-- **Local-First Design** — Single authoritative game state
-- **Message-Based Input** — Deterministic input handling
-- **Network-Ready** — Schema designed for LAN/network transport
-- **Cross-Platform** — Browser-based for desktop and mobile support
+## Game Stats
 
----
+- Player HP: 100
+- Player Hunger: 100% → 0% (2.5%/s drain)
+- Base HP: 500
+- Enemy Damage: 8 (players) / 14 (base)
+- Revive: 35 HP + 25% hunger + 2s invuln
+- Waves: Ramp to 20 enemies, 5s spawn timer (v0.1.1)
 
-## Project Status
+## GitHub Pages Deployment
 
-**Version**: 0.1
-**Status**: MVP Build Phase
-**Last Updated**: 2026-01-12
-
-This project is in active development. Core systems and gameplay mechanics are being implemented.
-
----
-
-## Getting Started
-
-_Coming soon — Installation and setup instructions will be added as the MVP develops._
-
----
+```bash
+# Enable GitHub Pages:
+# Settings → Pages → Source: main branch → Save
+# Your game will be at: https://[username].github.io/hollow/
+```
 
 ## Development
 
-### Prerequisites
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- Development environment (details TBA)
+**Version**: v0.1.1
+**Status**: Local Co-op MVP
+**Next**: LAN Transport Layer
 
-### Building
-_Build instructions will be added as the project progresses._
-
----
-
-## Contributing
-
-This project is in early development. Contribution guidelines will be established once the MVP is complete.
-
----
-
-## License
-
-_License information to be determined._
-
----
-
-## Contact & Links
-
-For questions, feedback, or collaboration inquiries, please reach out through the repository issues.
-
----
-
-**Built with ❤️ for co-op gaming**
+## Built with zero dependencies. Runs anywhere.

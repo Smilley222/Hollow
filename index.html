@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOLLOW</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-root">
+    <canvas id="game" width="800" height="600" aria-label="Hollow game canvas"></canvas>
+
+    <div id="hud">
+      <div id="top-center">
+        <div id="wave" class="wave">Wave <span id="wave-number">1</span></div>
+        <div id="base-bar" class="bar">
+          <div class="bar-fill" id="base-fill"></div>
+        </div>
+      </div>
+
+      <div id="bottom-left" class="player-panel">
+        <div class="player-title">P1 <span id="p1-status"></span></div>
+        <div class="bar hunger">
+          <div class="bar-fill" id="p1-hunger"></div>
+        </div>
+      </div>
+
+      <div id="bottom-right" class="player-panel">
+        <div class="player-title">P2 <span id="p2-status"></span></div>
+        <div class="bar hunger">
+          <div class="bar-fill" id="p2-hunger"></div>
+        </div>
+      </div>
+
+      <div id="bleedout" class="hidden">
+        BLEEDOUT <span id="bleedout-timer">8.0</span>s
+      </div>
+
+      <div id="debug" class="hidden"></div>
+    </div>
+
+    <div id="game-over" class="hidden">
+      <div class="game-over-card">
+        <h1>GAME OVER</h1>
+        <p id="game-over-reason"></p>
+        <div class="stats">
+          <div>Waves Survived: <span id="stat-waves"></span></div>
+          <div>Enemies Killed: <span id="stat-kills"></span></div>
+          <div>Time Survived: <span id="stat-time"></span>s</div>
+        </div>
+        <button id="restart">Restart</button>
+      </div>
+    </div>
+
+    <div id="lan-panel">
+      <h3>LAN MULTIPLAYER (Coming Soon)</h3>
+      <pre id="schema">Input Message Schema
+{
+  seq: number,
+  t: number,
+  pid: 1 | 2,
+  up: boolean,
+  down: boolean,
+  left: boolean,
+  right: boolean,
+  attack: boolean
+}
+
+State Message Schema
+{
+  tick: number,
+  players: Array<{ pid, x, y, vx, vy, hp, hunger, downed, reviving, invuln }>,
+  enemies: Array<{ id, x, y, vx, vy, hp, state, target, attackWindup, attackCooldown }>,
+  pickups: Array<{ id, x, y, type }>,
+  base: { x, y, hp, radius },
+  wave: { current, nextSpawnTime, spawnCount },
+  bleedOut: { active, timeLeft }
+}
+</pre>
+    </div>
+
+    <div id="mobile-ui" class="hidden">
+      <div id="joystick">
+        <div id="joystick-knob"></div>
+      </div>
+      <button id="attack">ATTACK</button>
+      <button id="swap">SWAP</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
